@@ -104,8 +104,8 @@ const Home = () => {
                 }
               >
                 <Canvas camera={{ position: [0, 0, 7.5], fov: 45 }}>
-                  <WaterCore />
-                  <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.6} />
+                  <WaterCore autoRotate />
+                  <OrbitControls {...({ enableZoom: false } as any)} />
                 </Canvas>
               </Suspense>
             }

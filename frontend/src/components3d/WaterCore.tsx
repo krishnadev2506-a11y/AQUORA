@@ -2,10 +2,15 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const WaterCore = () => {
+interface WaterCoreProps {
+  autoRotate?: boolean;
+}
+
+const WaterCore = ({ autoRotate = false }: WaterCoreProps) => {
   const sphereRef = useRef<THREE.Mesh>(null);
   const ringRef = useRef<THREE.Mesh>(null);
   const particlesRef = useRef<THREE.Points>(null);
+  const groupRef = useRef<THREE.Group>(null);
 
   // Generate orbital particles around the water core
   const particlesCount = 240;
@@ -25,21 +30,25 @@ const WaterCore = () => {
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
+    const rotSpeed = autoRotate ? 0.3 : 1;
     if (sphereRef.current) {
-      sphereRef.current.rotation.y = time * 0.15;
+      sphereRef.current.rotation.y = time * 0.15 * rotSpeed;
       sphereRef.current.rotation.x = Math.sin(time * 0.2) * 0.1;
     }
     if (ringRef.current) {
-      ringRef.current.rotation.z = time * 0.25;
+      ringRef.current.rotation.z = time * 0.25 * rotSpeed;
       ringRef.current.rotation.x = Math.PI / 3 + Math.sin(time * 0.15) * 0.1;
     }
     if (particlesRef.current) {
-      particlesRef.current.rotation.y = time * 0.08;
+      particlesRef.current.rotation.y = time * 0.08 * rotSpeed;
+    }
+    if (groupRef.current && autoRotate) {
+      groupRef.current.rotation.y = time * 0.1;
     }
   });
 
   return (
-    <group>
+    <group ref={groupRef}>
       <ambientLight intensity={0.6} />
       <directionalLight position={[10, 10, 8]} intensity={1.8} color="#38bdf8" />
       <pointLight position={[-10, -10, -5]} intensity={1.2} color="#06b6d4" />
