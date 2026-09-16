@@ -12,6 +12,7 @@ import {
   GitBranch,
   Layers
 } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api';
 
 interface ModelMetrics {
   accuracy: number;
@@ -104,7 +105,7 @@ const Models = () => {
   const handleTrain = async () => {
     setIsTraining(true);
     try {
-      const res = await fetch('http://localhost:8000/api/models/train', { method: 'POST' });
+      const res = await fetch(API_ENDPOINTS.train, { method: 'POST' });
       if (res.ok) {
         const data = await res.json();
         setTrainResult(data);
@@ -119,7 +120,7 @@ const Models = () => {
   const handleRunExperiments = async () => {
     setExperimentLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/experiments/all');
+      const res = await fetch(API_ENDPOINTS.experiments);
       if (res.ok) {
         const data = await res.json();
         if (data['20pct']) {

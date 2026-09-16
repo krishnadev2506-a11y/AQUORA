@@ -23,6 +23,7 @@ import {
   ResponsiveContainer,
   CartesianGrid
 } from 'recharts';
+import { API_ENDPOINTS } from '../config/api';
 
 interface SensorPayload {
   sensors: Record<string, number>;
@@ -101,7 +102,7 @@ const Dashboard = () => {
   // Fetch summary stats
   const fetchSummary = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/dashboard/summary');
+      const res = await fetch(API_ENDPOINTS.summary);
       if (res.ok) {
         const data = await res.json();
         setSummary(data);
@@ -131,7 +132,7 @@ const Dashboard = () => {
 
     const connectWs = () => {
       try {
-        const ws = new WebSocket('ws://localhost:8000/ws/sensors');
+        const ws = new WebSocket(API_ENDPOINTS.wsSensors);
         wsRef.current = ws;
 
         ws.onopen = () => {

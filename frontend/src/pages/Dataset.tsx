@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Database, Filter, Search, RefreshCw, BarChart2, CheckCircle2, AlertTriangle, Layers } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api';
 
 interface DatasetSummary {
   filename?: string;
@@ -44,7 +45,7 @@ const Dataset = () => {
 
   const fetchDataset = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/datasets/summary');
+      const res = await fetch(API_ENDPOINTS.datasetSummary);
       if (res.ok) {
         const json = await res.json();
         setData(json);

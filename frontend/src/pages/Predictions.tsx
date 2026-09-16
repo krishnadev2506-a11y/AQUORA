@@ -12,6 +12,7 @@ import {
   Sparkles,
   ArrowDown
 } from 'lucide-react';
+import { API_ENDPOINTS } from '../config/api';
 
 interface PredictionResponse {
   prediction: number;
@@ -133,7 +134,7 @@ const Predictions = () => {
     setLoading(true);
     try {
       // First ensure model is trained if not ready
-      const res = await fetch('http://localhost:8000/api/predict', {
+      const res = await fetch(API_ENDPOINTS.predict, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ features }),
@@ -143,8 +144,8 @@ const Predictions = () => {
         const data = await res.json();
         if (data.error && data.hint) {
           // Train model automatically first
-          await fetch('http://localhost:8000/api/models/train', { method: 'POST' });
-          const retryRes = await fetch('http://localhost:8000/api/predict', {
+          await fetch(API_ENDPOINTS.train, { method: 'POST' });
+          const retryRes = await fetch(API_ENDPOINTS.predict, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ features }),
