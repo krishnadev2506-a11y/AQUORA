@@ -17,6 +17,11 @@ AQUORA is a futuristic water-quality intelligence and monitoring platform. It is
 
 ## Installation & Setup
 
+For detailed setup in each part of the stack, see:
+
+- [Backend README](backend/README.md)
+- [Frontend README](frontend/README.md)
+
 ### 1. Dataset Generation
 The dataset must exist at `data/dataset.csv`. A script is provided to generate a realistic synthetic dataset.
 ```bash
